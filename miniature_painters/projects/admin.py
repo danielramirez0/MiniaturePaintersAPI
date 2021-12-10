@@ -6,6 +6,5 @@ admin.site.register(Progress)
 admin.site.register(Game)
 admin.site.register(Comment)
 admin.site.register(Reply)
-admin.site.register(UserProject)
 admin.site.register(WatchedProject)
 
