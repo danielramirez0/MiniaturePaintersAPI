@@ -16,11 +16,9 @@ class ProgressSerializer(serializers.ModelSerializer):
 
 
 class ProjectSerializer(serializers.ModelSerializer):
-    # game = GameSerializer(read_only=True)
-    # progress = ProgressSerializer(read_only=True)
     class Meta:
         model = Project
-        fields = ['id', 'user', 'game', 'start_date',
+        fields = ['id', 'user_id', 'game', 'start_date',
                   'progress', 'name', 'likes']
 
 

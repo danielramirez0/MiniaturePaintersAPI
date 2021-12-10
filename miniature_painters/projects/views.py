@@ -38,7 +38,7 @@ from django.apps import apps
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def get_all_projects(request):
-    projects = Project.objects.all().order_by('date')
+    projects = Project.objects.all().order_by('start_date')
     serializer = ProjectSerializer(projects, many=True)
     return Response(serializer.data)
 
@@ -47,10 +47,10 @@ def get_all_projects(request):
 @permission_classes([IsAuthenticated])
 def user_projects(request):
     if request.method == 'POST':
-        serializer = ProjectSerializer(data=request.data)
+        data = JSONParser().parse(request)
+        serializer = ProjectSerializer(data=data)
         if serializer.is_valid():
-            serializer.save(user=request.user, game=request.data.game,
-                            progress=request.data.progress)
+            serializer.save(user=request.user, start_date=date.today())
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'GET':
