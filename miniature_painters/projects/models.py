@@ -22,14 +22,16 @@ class Game(models.Model):
 
 
 class Comment(models.Model):
-    project = models.ForeignKey("Project", on_delete=models.CASCADE)
+    project = models.ForeignKey("Project", on_delete=models.CASCADE, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    posted = models.DateField(blank=True, null=True)
+    posted = models.DateTimeField(blank=True, null=True)
     body = models.CharField(max_length=500)
 
 
 class Reply(models.Model):
-    comment = models.ForeignKey("Comment", on_delete=models.CASCADE)
+    comment = models.ForeignKey("Comment", on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    posted = models.DateTimeField(blank=True, null=True)
     body = models.CharField(max_length=250)
 
 

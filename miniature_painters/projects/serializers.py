@@ -25,13 +25,13 @@ class ProjectSerializer(serializers.ModelSerializer):
 class ReplySerializer(serializers.ModelSerializer):
     class Meta:
         model = Reply
-        fields = ['id', 'comment', 'body']
+        fields = ['id', 'comment', 'body', 'posted', 'user_id']
 
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ['id', 'project', 'body']
+        fields = ['id', 'project', 'body', 'posted', 'user_id']
 
 # class CommentSerializer(serializers.ModelSerializer):
 #     replies = ReplySerializer(many=True, read_only=True)
