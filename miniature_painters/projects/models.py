@@ -7,7 +7,8 @@ class Project(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     game = models.ForeignKey('Game', on_delete=models.CASCADE)
     start_date = models.DateField(blank=True, null=True)
-    progress = models.ForeignKey('Progress', max_length=20, on_delete=models.DO_NOTHING)
+    progress = models.ForeignKey(
+        'Progress', max_length=20, on_delete=models.DO_NOTHING)
     name = models.CharField(max_length=50)
     likes = models.IntegerField(default=0)
 
@@ -22,6 +23,8 @@ class Game(models.Model):
 
 class Comment(models.Model):
     project = models.ForeignKey("Project", on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    posted = models.DateField(blank=True, null=True)
     body = models.CharField(max_length=500)
 
 
