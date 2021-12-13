@@ -19,7 +19,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = ['id', 'user_id', 'game', 'start_date',
-                  'progress', 'name', 'likes']
+                  'progress', 'name', 'likes', 'description']
 
 
 class ReplySerializer(serializers.ModelSerializer):

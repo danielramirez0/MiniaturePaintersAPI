@@ -9,6 +9,7 @@ class Project(models.Model):
     start_date = models.DateField(blank=True, null=True)
     progress = models.ForeignKey(
         'Progress', max_length=20, on_delete=models.DO_NOTHING)
+    description = models.TextField()
     name = models.CharField(max_length=50)
     likes = models.IntegerField(default=0)
 
