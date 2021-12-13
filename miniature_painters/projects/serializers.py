@@ -1,3 +1,4 @@
+from django.db.models import fields
 from rest_framework import serializers
 from .models import *
 # from authentication.serializers import UserSerializer
@@ -22,6 +23,20 @@ class ProjectSerializer(serializers.ModelSerializer):
                   'progress', 'name', 'likes', 'description']
 
 
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ['id', 'body']
+
+
+class ProjectPostSerializer(serializers.ModelSerializer):
+    # user =  UserSerializer(read_only=True)
+    # project = ProjectSerializer(read_only=True)
+    class Meta:
+        model = WatchedProject
+        fields = ['id', 'project', 'post']
+
+
 class ReplySerializer(serializers.ModelSerializer):
     class Meta:
         model = Reply
@@ -31,7 +46,7 @@ class ReplySerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ['id', 'project', 'body', 'posted', 'user_id']
+        fields = ['id', 'post', 'body', 'posted', 'user_id']
 
 # class CommentSerializer(serializers.ModelSerializer):
 #     replies = ReplySerializer(many=True, read_only=True)
