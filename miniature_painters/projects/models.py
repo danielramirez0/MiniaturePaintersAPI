@@ -6,7 +6,7 @@ User = get_user_model()
 class Project(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     game = models.ForeignKey('Game', on_delete=models.CASCADE)
-    start_date = models.DateField(blank=True, null=True)
+    start_date = models.DateTimeField(blank=True, null=True)
     progress = models.ForeignKey(
         'Progress', max_length=20, on_delete=models.DO_NOTHING)
     description = models.TextField()
