@@ -22,3 +22,10 @@ def get_painters(request):
     painters = User.objects.all().order_by('date_joined').exclude(is_staff=True)
     serializer = UserSerializer(painters, many=True)
     return Response(serializer.data)
+
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def get_unique_painter(request, painter_id):
+    painter = User.objects.get(pk=painter_id)
+    serializer = UserSerializer(painter)
+    return Response(serializer.data)
