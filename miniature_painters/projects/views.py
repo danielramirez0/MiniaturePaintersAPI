@@ -42,6 +42,13 @@ def get_unique_project(project_id):
         raise Http404
 
 
+def get_unique_post(post_id):
+    try:
+        return Post.objects.get(pk=post_id)
+    except Post.DoesNotExist:
+        raise Http404
+
+
 def get_unique_comment(comment_id):
     try:
         return Comment.objects.get(pk=comment_id)
@@ -72,7 +79,8 @@ def get_user_projects(request):
         serializer = ProjectSerializer(project)
         return Response(serializer.data)
     else:
-        projects = Project.objects.filter(user_id=request.query_params.get("id"))
+        projects = Project.objects.filter(
+            user_id=request.query_params.get("id"))
         serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data)
 
@@ -99,21 +107,50 @@ def update_user_projects(request):
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
-def get_comments(request, project_id):
-    comments = Comment.objects.filter(project_id=project_id)
+def get_project_posts(request, project_id):
+    posts = Post.objects.filter(
+        project=project_id)
+    serializer = PostSerializer(posts, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['PUT', 'POST'])
+@permission_classes([IsAuthenticated])
+def update_project_posts(request, project_id):
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = PostSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save(project=project_id, posted=datetime.now())
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'PUT':
+        data = JSONParser().parse(request)
+        project = get_unique_post(data['id'])
+        serializer = ProjectSerializer(project, data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_comments(request, post_id):
+    comments = Comment.objects.filter(post_id=post_id)
     serializer = CommentSerializer(comments, many=True)
     return Response(serializer.data)
 
 
 @api_view(['PUT', 'POST'])
 @permission_classes([IsAuthenticated])
-def update_comments(request, project_id):
+def update_comments(request, post_id):
     if request.method == 'POST':
         data = JSONParser().parse(request)
         serializer = CommentSerializer(data=data)
         if serializer.is_valid():
-            project = get_unique_project(project_id)
-            serializer.save(project=project, user=request.user,
+            post = get_unique_post(post_id)
+            serializer.save(post=post, user=request.user,
                             posted=datetime.now())
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
