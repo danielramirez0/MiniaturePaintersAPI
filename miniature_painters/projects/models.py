@@ -15,13 +15,9 @@ class Project(models.Model):
 
 
 class Post(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     body = models.TextField()
     posted = models.DateTimeField(blank=True, null=True)
-
-
-class ProjectPost(models.Model):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
 
 
 class Progress(models.Model):

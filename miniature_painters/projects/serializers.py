@@ -26,7 +26,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ['id', 'body', 'posted']
+        fields = ['id', 'body', 'posted', 'project']
 
 
 class ProjectPostSerializer(serializers.ModelSerializer):
