@@ -109,7 +109,7 @@ def update_user_projects(request):
 @permission_classes([AllowAny])
 def get_project_posts(request, project_id):
     posts = Post.objects.filter(
-        project=project_id)
+        project=project_id).order_by('posted')
     serializer = PostSerializer(posts, many=True)
     return Response(serializer.data)
 
@@ -121,7 +121,8 @@ def update_project_posts(request, project_id):
         data = JSONParser().parse(request)
         serializer = PostSerializer(data=data)
         if serializer.is_valid():
-            serializer.save(project=project_id, posted=datetime.now())
+            project = Project.objects.get(pk=project_id)
+            serializer.save(project=project, posted=datetime.now())
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'PUT':
