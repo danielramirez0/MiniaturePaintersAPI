@@ -138,7 +138,7 @@ def update_project_posts(request, project_id):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def get_comments(request, post_id):
-    comments = Comment.objects.filter(post_id=post_id)
+    comments = Comment.objects.filter(post=post_id)
     serializer = CommentSerializer(comments, many=True)
     return Response(serializer.data)
 

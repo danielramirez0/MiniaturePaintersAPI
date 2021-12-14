@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'authentication.apps.AuthenticationConfig',
     'corsheaders',
-    'projects.apps.ProjectsConfig'
+    'projects.apps.ProjectsConfig',
+    'painters.apps.PaintersConfig',
 ]
 
 MIDDLEWARE = [

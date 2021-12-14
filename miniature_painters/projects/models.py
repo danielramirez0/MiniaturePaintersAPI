@@ -30,7 +30,7 @@ class Game(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey(
-        "Project", on_delete=models.CASCADE, blank=True, null=True)
+        "Post", on_delete=models.CASCADE, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     posted = models.DateTimeField(blank=True, null=True)
     body = models.CharField(max_length=500)
