@@ -13,12 +13,16 @@ class Project(models.Model):
     name = models.CharField(max_length=50)
     likes = models.IntegerField(default=0)
 
+
 class Post(models.Model):
     body = models.TextField()
+    posted = models.DateTimeField(blank=True, null=True)
+
 
 class ProjectPost(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
 
 class Progress(models.Model):
     status = models.CharField(max_length=20)
@@ -29,14 +33,16 @@ class Game(models.Model):
 
 
 class Comment(models.Model):
-    post = models.ForeignKey("Project", on_delete=models.CASCADE, blank=True, null=True)
+    post = models.ForeignKey(
+        "Project", on_delete=models.CASCADE, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     posted = models.DateTimeField(blank=True, null=True)
     body = models.CharField(max_length=500)
 
 
 class Reply(models.Model):
-    comment = models.ForeignKey("Comment", on_delete=models.CASCADE, blank=True, null=True)
+    comment = models.ForeignKey(
+        "Comment", on_delete=models.CASCADE, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     posted = models.DateTimeField(blank=True, null=True)
     body = models.CharField(max_length=250)

@@ -48,6 +48,7 @@ def get_unique_comment(comment_id):
     except Comment.DoesNotExist:
         raise Http404
 
+
 def get_unique_reply(reply_id):
     try:
         return Reply.objects.get(pk=reply_id)
@@ -71,7 +72,7 @@ def get_user_projects(request):
         serializer = ProjectSerializer(project)
         return Response(serializer.data)
     else:
-        projects = Project.objects.filter(user_id=request.user.id)
+        projects = Project.objects.filter(user_id=request.query_params.get("id"))
         serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data)
 
